@@ -9,18 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>guli-microservice-edu</artifactId>
+    <artifactId>guli-framework-common</artifactId>
 
     <dependencies>
-        <!--mybatis-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
         <!--swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -34,22 +25,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <!--开发者工具-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.guili</groupId>
-            <artifactId>guli-framework-common</artifactId>
-            <version>${guli.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pageHelp.version}</version>
         </dependency>
     </dependencies>
 
