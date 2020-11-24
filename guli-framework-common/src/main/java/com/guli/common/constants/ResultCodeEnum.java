@@ -7,7 +7,9 @@ public enum ResultCodeEnum {
 
     SUCCESS(true, 20000,"成功"),
 
-    UNKNOWN_REASON(false, 20001, "未知错误");
+    UNKNOWN_REASON(false, 20001, "未知错误"),
+
+    PARAM_ERROR(false,21002,"参数不正确");
 
     private Boolean success;
 

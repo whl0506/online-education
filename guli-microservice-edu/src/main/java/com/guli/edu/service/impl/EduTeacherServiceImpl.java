@@ -2,6 +2,8 @@ package com.guli.edu.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.guli.common.constants.ResultCodeEnum;
+import com.guli.common.exception.GuliException;
 import com.guli.edu.dto.TeacherDto;
 import com.guli.edu.entity.EduTeacher;
 import com.guli.edu.entity.EduTeacherExample;
@@ -31,6 +33,9 @@ public class EduTeacherServiceImpl implements EduTeacherService {
 
     @Override
     public Map getPageList(String page, String limit, TeacherDto teacherDto) {
+        if (Integer.valueOf(page) <= 0 || Integer.valueOf(limit) <= 0) {
+            throw new GuliException(ResultCodeEnum.PARAM_ERROR);
+        }
         Page<EduTeacher> startPage = PageHelper.startPage(Integer.valueOf(page), Integer.valueOf(limit));
         List<EduTeacher> eduTeachers;
         if (ObjectUtils.isEmpty(teacherDto)) {
