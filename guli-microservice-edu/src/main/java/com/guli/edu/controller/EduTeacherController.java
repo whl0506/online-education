@@ -7,10 +7,10 @@ import com.guli.edu.service.EduTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin //解决403跨域问题
 @RestController
 @RequestMapping("/admin/edu/teacher")
 public class EduTeacherController {
@@ -18,9 +18,22 @@ public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;
 
+    //{"code":20000,"data":{"token":"admin"}}
+    //模拟登陆
+    @PostMapping("login")
+    public R login() {
+        return R.ok().data("token","admin");
+    }
+
+    //{"code":20000,"data":{"roles":["admin"],"name":"admin",
+    // "avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"}}
+    @GetMapping("info")
+    public R info() {
+        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+    }
+
     /**
      * 查询所有讲师
-     *
      * @return
      */
     @GetMapping("/list")
@@ -29,9 +42,14 @@ public class EduTeacherController {
         return R.ok().data("items", teacherList);
     }
 
+    @GetMapping("/{id}")
+    public R getById(@PathVariable Long id) {
+        EduTeacher eduTeacher = eduTeacherService.getTeacherById(id);
+        return R.ok().data("item",eduTeacher);
+    }
+
     /**
      * 根据条件分页查询讲师
-     *
      * @param page
      * @param limit
      * @param teacherDto
@@ -47,7 +65,6 @@ public class EduTeacherController {
 
     /**
      * 根据id逻辑删除讲师
-     *
      * @param id
      * @return
      */
@@ -57,9 +74,14 @@ public class EduTeacherController {
         if (result) {
             return R.ok();
         }
-        return R.error();
+        return R.error().message("删除失败");
     }
 
+    /**
+     * 保存或更新讲师信息
+     * @param eduTeacher
+     * @return
+     */
     @PostMapping("/add_or_update")
     public R addTeacher(@RequestBody EduTeacher eduTeacher ) {
         Boolean result = eduTeacherService.addOrUpdateTeacher(eduTeacher);

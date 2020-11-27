@@ -100,6 +100,11 @@ public class EduTeacherServiceImpl implements EduTeacherService {
         return true;
     }
 
+    @Override
+    public EduTeacher getTeacherById(Long id) {
+        return eduTeacherMapper.selectByPrimaryKey(id);
+    }
+
     public Date parseToDate(String time) {
         if (!StringUtils.isEmpty(time)) {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

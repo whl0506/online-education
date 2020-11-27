@@ -15,4 +15,6 @@ public interface EduTeacherService {
     Boolean deleteTeacher(String id);
 
     Boolean addOrUpdateTeacher(EduTeacher eduTeacher);
+
+    EduTeacher getTeacherById(Long id);
 }

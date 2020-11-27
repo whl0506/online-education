@@ -103,9 +103,17 @@
         </if>
         <include refid="Base_Column_List" />
         from edu_teacher
-        <if test="_parameter != null" >
+        <choose>
+            <when test="_parameter != null">
+                <include refid="Example_Where_Clause" />
+            </when>
+            <otherwise>
+                where is_deleted = 0
+            </otherwise>
+        </choose>
+        <!--<if test="_parameter != null" >
             <include refid="Example_Where_Clause" />
-        </if>
+        </if>-->
         <if test="orderByClause != null" >
             order by ${orderByClause}
         </if>
@@ -116,7 +124,7 @@
         ,
         <include refid="Blob_Column_List" />
         from edu_teacher
-        where id = #{id,jdbcType=BIGINT} AND isDeleted = 0
+        where id = #{id,jdbcType=BIGINT} AND is_deleted = 0
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from edu_teacher
