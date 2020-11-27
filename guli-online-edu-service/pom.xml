@@ -13,10 +13,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.guili</groupId>
-    <artifactId>guli-framework-parent</artifactId>
+    <artifactId>guli-online-edu-service</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>guli-framework-parent</name>
+    <name>guli-online-edu-service</name>
     <description>online-edu</description>
 
     <properties>
