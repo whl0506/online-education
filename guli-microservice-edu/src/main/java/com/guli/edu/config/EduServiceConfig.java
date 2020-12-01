@@ -42,6 +42,9 @@ public class EduServiceConfig implements Interceptor {
                 if (ObjectUtils.isEmpty(eduTeacher.getGmtModified())) {
                     eduTeacher.setGmtModified(new Date());
                 }
+                if (ObjectUtils.isEmpty(eduTeacher.getIsDeleted())) {
+                    eduTeacher.setIsDeleted(0);
+                }
 //                if (StringUtils.isEmpty(eduTeacher.getId())) {
 //                    // 这里小demo用uuid就行了，具体根据业务来，
 //                    // 我们生产是用的redis生成的全局唯一键
