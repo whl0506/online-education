@@ -5,6 +5,7 @@
     <modules>
         <module>guli-microservice-edu</module>
         <module>guli-framework-common</module>
+        <module>guli-commonservice-oss</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

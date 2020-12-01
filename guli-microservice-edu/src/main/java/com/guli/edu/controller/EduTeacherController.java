@@ -58,7 +58,7 @@ public class EduTeacherController {
     @GetMapping("/page/{page}/{limit}")
     public R pageList(@PathVariable String page,
                       @PathVariable String limit,
-                      @RequestBody(required = false) TeacherDto teacherDto) {
+                      TeacherDto teacherDto) {
         Map resultMap = eduTeacherService.getPageList(page, limit, teacherDto);
         return R.ok().data(resultMap);
     }
