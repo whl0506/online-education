@@ -15,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -152,6 +151,31 @@ public class EduSubjectServiceImpl implements EduSubjectService {
         }
         int key = eduSubjectMapper.deleteByPrimaryKey(id);
         return key>0;
+    }
+
+    @Override
+    public String saveSubject(EduSubject eduSubject) {
+        Long parentId = eduSubject.getParentId();
+        String title = eduSubject.getTitle();
+        String msg = "";
+        if (parentId == null || parentId == 0) {
+            //判断一级分类是否重复
+            List<EduSubject> subjects = this.getSubjectByTitle(title, 0L);
+            if (subjects.size()!=0) {
+                msg = "一级分类课程名称重复";
+            }
+            eduSubject.setParentId(0L);
+        } else {
+            List<EduSubject> subjects = this.getSubjectByTitle(title, parentId);
+            if (subjects.size()!=0) {
+                msg = "二级分类课程名称重复";
+            }
+        }
+        if (StringUtils.isEmpty(msg)) {
+            eduSubject.setSort(0);
+            eduSubjectMapper.insert(eduSubject);
+        }
+        return msg;
     }
 
     private List<EduSubject> getSubjectsByParentId(Long parentId) {

@@ -1,5 +1,6 @@
 package com.guli.edu.service;
 
+import com.guli.edu.entity.EduSubject;
 import com.guli.edu.vo.EduSubjectNestedVo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,4 +13,6 @@ public interface EduSubjectService {
     List<EduSubjectNestedVo> nestedList();
 
     Boolean removeSubjectById(Long id);
+
+    String saveSubject(EduSubject eduSubject);
 }
