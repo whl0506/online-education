@@ -10,4 +10,6 @@ public interface EduSubjectService {
     List<String> batchImport(MultipartFile file);
 
     List<EduSubjectNestedVo> nestedList();
+
+    Boolean removeSubjectById(Long id);
 }

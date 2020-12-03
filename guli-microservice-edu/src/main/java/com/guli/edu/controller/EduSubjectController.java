@@ -32,4 +32,13 @@ public class EduSubjectController {
         return R.ok().data("items", eduSubjectNestedVoList);
     }
 
+    @DeleteMapping("/remove/{id}")
+    public R removeSubjectById(@PathVariable Long id) {
+        Boolean flag = eduSubjectService.removeSubjectById(id);
+        if (flag) {
+            return R.ok().message("删除成功");
+        }
+        return R.error();
+    }
+
 }

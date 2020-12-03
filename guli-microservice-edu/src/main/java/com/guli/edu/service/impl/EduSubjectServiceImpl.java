@@ -19,7 +19,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +132,26 @@ public class EduSubjectServiceImpl implements EduSubjectService {
         }
 
         return subjectNestedVoArrayList;
+    }
+
+    @Override
+    public Boolean removeSubjectById(Long id) {
+        // 根据id查询课程分类
+        EduSubject eduSubject = eduSubjectMapper.selectByPrimaryKey(id);
+        // 若不是一级分类则直接删除节点
+        if (eduSubject.getParentId()!=0) {
+            int key = eduSubjectMapper.deleteByPrimaryKey(id);
+            return key>0;
+        }
+        // 若是一级分类则获取其二级分类并进行删除
+        List<EduSubject> subjectList = this.getSubjectsByParentId(id);
+        if (subjectList.size() != 0){
+            for (EduSubject subject : subjectList) {
+                eduSubjectMapper.deleteByPrimaryKey(subject.getId());
+            }
+        }
+        int key = eduSubjectMapper.deleteByPrimaryKey(id);
+        return key>0;
     }
 
     private List<EduSubject> getSubjectsByParentId(Long parentId) {
