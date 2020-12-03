@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @ApiModel(value = "EduTeacher对象",description = "讲师")
-public class EduTeacher implements Serializable {
+public class EduTeacher extends BaseProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

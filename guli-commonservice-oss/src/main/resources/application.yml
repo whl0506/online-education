@@ -18,6 +18,3 @@ aliyun:
       keysecret: ENC(9jCRvjkG1TFUTDtCogC47QSMMsve6q4uw7vjaqIUtSF2CytYn2SecA==)
       bucketname: guli-file-whl
       filehost: avatar
-#jasypt:
-#  encryptor:
-#    password: whl

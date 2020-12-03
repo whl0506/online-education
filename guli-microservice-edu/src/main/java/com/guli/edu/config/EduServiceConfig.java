@@ -1,5 +1,6 @@
 package com.guli.edu.config;
 
+import com.guli.edu.entity.BaseProperties;
 import com.guli.edu.entity.EduTeacher;
 import com.guli.edu.entity.EduTeacherExample;
 import lombok.extern.log4j.Log4j2;
@@ -31,19 +32,19 @@ public class EduServiceConfig implements Interceptor {
         if (param == null || !EduTeacher.class.isAssignableFrom(param.getClass())) {
             return invocation.proceed();
         }
-        EduTeacher eduTeacher = (EduTeacher) param;
+//        EduTeacher eduTeacher = (EduTeacher) param;
         // 获取Sql执行类型
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
         switch (sqlCommandType) {
             case INSERT:
-                if (ObjectUtils.isEmpty(eduTeacher.getGmtCreate())) {
-                    eduTeacher.setGmtCreate(new Date());
-                }
-                if (ObjectUtils.isEmpty(eduTeacher.getGmtModified())) {
-                    eduTeacher.setGmtModified(new Date());
-                }
-                if (ObjectUtils.isEmpty(eduTeacher.getIsDeleted())) {
-                    eduTeacher.setIsDeleted(0);
+                // 设置自动填充时间
+                setTime(param);
+                // 针对讲师实现逻辑删除
+                if (param instanceof EduTeacher) {
+                    EduTeacher eduTeacher = (EduTeacher) param;
+                    if (ObjectUtils.isEmpty(eduTeacher.getIsDeleted())) {
+                        eduTeacher.setIsDeleted(0);
+                    }
                 }
 //                if (StringUtils.isEmpty(eduTeacher.getId())) {
 //                    // 这里小demo用uuid就行了，具体根据业务来，
@@ -52,14 +53,31 @@ public class EduServiceConfig implements Interceptor {
 //                }
                 break;
             case UPDATE:
-                if (ObjectUtils.isEmpty(eduTeacher.getGmtModified())) {
-                    eduTeacher.setGmtModified(new Date());
-                }
+                setModifiedTime(param);
                 break;
         }
         return invocation.proceed();
     }
 
+    private void setModifiedTime(Object object) {
+        if (object instanceof BaseProperties) {
+            BaseProperties baseProperties = (BaseProperties) object;
+            baseProperties.setGmtModified(new Date());
+        }
+
+    }
+
+    private void setTime(Object object) {
+        if (object instanceof BaseProperties) {
+            BaseProperties baseProperties = (BaseProperties) object;
+            if (ObjectUtils.isEmpty(baseProperties.getGmtCreate())) {
+                baseProperties.setGmtCreate(new Date());
+            }
+            if (ObjectUtils.isEmpty(baseProperties.getGmtModified())) {
+                baseProperties.setGmtModified(new Date());
+            }
+        }
+    }
 
     @Override
     public Object plugin(Object target) {
