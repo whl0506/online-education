@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.guli.edu.entity.EduSubject" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="CHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
@@ -84,13 +84,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from edu_subject
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from edu_subject
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -100,15 +100,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.guli.edu.entity.EduSubject" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.guli.edu.entity.EduSubject" >
     insert into edu_subject (id, title, parent_id, 
       sort, gmt_create, gmt_modified
       )
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT},
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
       #{sort,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.guli.edu.entity.EduSubject" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.guli.edu.entity.EduSubject" >
     insert into edu_subject
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -214,7 +214,7 @@
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.guli.edu.entity.EduSubject" >
     update edu_subject
@@ -223,6 +223,6 @@
       sort = #{sort,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

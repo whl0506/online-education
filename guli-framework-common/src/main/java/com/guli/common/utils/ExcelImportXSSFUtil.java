@@ -4,6 +4,10 @@ import lombok.Data;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,30 +15,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
-public class ExcelImportHSSFUtil {
+public class ExcelImportXSSFUtil {
 
-    private HSSFFormulaEvaluator formulaEvaluator;
-    private HSSFSheet sheet;
+    private XSSFFormulaEvaluator formulaEvaluator;
+    private XSSFSheet sheet;
     private String pattern;// 日期格式
 
-    public ExcelImportHSSFUtil() {
+    public ExcelImportXSSFUtil() {
         super();
     }
 
-    public ExcelImportHSSFUtil(InputStream is) throws IOException {
+    public ExcelImportXSSFUtil(InputStream is) throws IOException {
         this(is, 0, true);
     }
 
-    public ExcelImportHSSFUtil(InputStream is, int seetIndex) throws IOException {
-        this(is, seetIndex, true);
+    public ExcelImportXSSFUtil(InputStream is, int sheetIndex) throws IOException {
+        this(is, sheetIndex, true);
     }
 
-    public ExcelImportHSSFUtil(InputStream is, int seetIndex, boolean evaluateFormular) throws IOException {
+    public ExcelImportXSSFUtil(InputStream is, int sheetIndex, boolean evaluateFormular) throws IOException {
         super();
-        HSSFWorkbook workbook = new HSSFWorkbook(is);
-        this.sheet = workbook.getSheetAt(seetIndex);
+        XSSFWorkbook workbook = new XSSFWorkbook(is);
+        this.sheet = workbook.getSheetAt(sheetIndex);
         if (evaluateFormular) {
-            this.formulaEvaluator = new HSSFFormulaEvaluator(workbook);
+            this.formulaEvaluator = new XSSFFormulaEvaluator(workbook);
         }
     }
 
@@ -53,7 +57,7 @@ public class ExcelImportHSSFUtil {
                     }
                 } else {
                     // 不是日期格式，则防止当数字过长时以科学计数法显示
-                    cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+                    cell.setCellType(XSSFCell.CELL_TYPE_STRING);
                     return cell.toString();
                 }
 

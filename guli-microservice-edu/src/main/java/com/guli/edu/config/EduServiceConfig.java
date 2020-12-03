@@ -27,9 +27,8 @@ public class EduServiceConfig implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        // 只处理参数为EduTeacher子类的情况
         Object param = invocation.getArgs()[1];
-        if (param == null || !EduTeacher.class.isAssignableFrom(param.getClass())) {
+        if (param == null ) {
             return invocation.proceed();
         }
 //        EduTeacher eduTeacher = (EduTeacher) param;
@@ -38,7 +37,7 @@ public class EduServiceConfig implements Interceptor {
         switch (sqlCommandType) {
             case INSERT:
                 // 设置自动填充时间
-                setTime(param);
+                this.setTime(param);
                 // 针对讲师实现逻辑删除
                 if (param instanceof EduTeacher) {
                     EduTeacher eduTeacher = (EduTeacher) param;
@@ -53,7 +52,7 @@ public class EduServiceConfig implements Interceptor {
 //                }
                 break;
             case UPDATE:
-                setModifiedTime(param);
+                this.setModifiedTime(param);
                 break;
         }
         return invocation.proceed();

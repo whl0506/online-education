@@ -13,7 +13,7 @@ public interface EduSubjectMapper {
 
     int deleteByExample(EduSubjectExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(EduSubject record);
 
@@ -21,7 +21,7 @@ public interface EduSubjectMapper {
 
     List<EduSubject> selectByExample(EduSubjectExample example);
 
-    EduSubject selectByPrimaryKey(String id);
+    EduSubject selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") EduSubject record, @Param("example") EduSubjectExample example);
 
