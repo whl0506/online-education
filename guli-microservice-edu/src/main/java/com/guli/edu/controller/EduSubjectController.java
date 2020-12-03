@@ -2,6 +2,7 @@ package com.guli.edu.controller;
 
 import com.guli.common.vo.R;
 import com.guli.edu.service.EduSubjectService;
+import com.guli.edu.vo.EduSubjectNestedVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,12 @@ public class EduSubjectController {
             return R.ok().message("批量导入成功");
         }
         return R.error().message("批量导入失败").data("messageList",msgList);
+    }
+
+    @GetMapping
+    public R nestedList(){
+        List<EduSubjectNestedVo> eduSubjectNestedVoList = eduSubjectService.nestedList();
+        return R.ok().data("items", eduSubjectNestedVoList);
     }
 
 }

@@ -7,14 +7,19 @@ import com.guli.edu.entity.EduSubject;
 import com.guli.edu.entity.EduSubjectExample;
 import com.guli.edu.mapper.EduSubjectMapper;
 import com.guli.edu.service.EduSubjectService;
+import com.guli.edu.vo.EduSubjectNestedVo;
+import com.guli.edu.vo.EduSubjectVo;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +104,43 @@ public class EduSubjectServiceImpl implements EduSubjectService {
         }
 
         return msg;
+    }
+
+    @Override
+    public List<EduSubjectNestedVo> nestedList() {
+        //最终要的到的数据列表
+        ArrayList<EduSubjectNestedVo> subjectNestedVoArrayList = new ArrayList<>();
+        //获取一级分类数据记录
+        List<EduSubject> eduSubjects = this.getSubjectsByParentId(0L);
+        //填充一级分类vo数据
+        int count = eduSubjects.size();
+        for (int i = 0; i < count; i++) {
+            EduSubject subject = eduSubjects.get(i);
+            //根据一级分类id获取二级分类数据记录
+            List<EduSubject> levelTwoSubject = this.getSubjectsByParentId(subject.getId());
+            //创建一级类别vo对象
+            EduSubjectNestedVo subjectNestedVo = new EduSubjectNestedVo();
+            BeanUtils.copyProperties(subject, subjectNestedVo);
+            //填充二级分类vo数据
+            List<EduSubjectVo> subjectVoList = new ArrayList<>();
+            for (EduSubject eduSubject : levelTwoSubject) {
+                EduSubjectVo eduSubjectVo = new EduSubjectVo();
+                BeanUtils.copyProperties(eduSubject,eduSubjectVo);
+                subjectVoList.add(eduSubjectVo);
+            }
+            subjectNestedVo.setChildren(subjectVoList);
+            subjectNestedVoArrayList.add(subjectNestedVo);
+        }
+
+        return subjectNestedVoArrayList;
+    }
+
+    private List<EduSubject> getSubjectsByParentId(Long parentId) {
+        EduSubjectExample example = new EduSubjectExample();
+        EduSubjectExample.Criteria criteria = example.createCriteria();
+        criteria.andParentIdEqualTo(parentId);
+        example.setOrderByClause("sort,id ASC");
+        return eduSubjectMapper.selectByExample(example);
     }
 
     private List<EduSubject> getSubjectByTitle(String levelOneValue,Long parentId) {
