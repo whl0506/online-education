@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class EduSubjectServiceImpl implements EduSubjectService {
     private EduSubjectMapper eduSubjectMapper;
 
     @Override
+    @Transactional
     public List<String> batchImport(MultipartFile file) {
         // 返回错误信息
         List<String> msg = new ArrayList<>();
@@ -134,6 +136,7 @@ public class EduSubjectServiceImpl implements EduSubjectService {
     }
 
     @Override
+    @Transactional
     public Boolean removeSubjectById(Long id) {
         // 根据id查询课程分类
         EduSubject eduSubject = eduSubjectMapper.selectByPrimaryKey(id);
