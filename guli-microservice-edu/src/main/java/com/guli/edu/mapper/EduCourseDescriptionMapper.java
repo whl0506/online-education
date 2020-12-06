@@ -2,10 +2,12 @@ package com.guli.edu.mapper;
 
 import com.guli.edu.entity.EduCourseDescription;
 import com.guli.edu.entity.EduCourseDescriptionExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface EduCourseDescriptionMapper {
     int countByExample(EduCourseDescriptionExample example);
 

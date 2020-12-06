@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.guli.edu.entity.EduCourse" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.guli.edu.entity.EduCourse" >
     insert into edu_course (id, teacher_id, subject_parent_id, 
       subject_id, title, price, 
       lesson_num, cover, buy_count, 
@@ -121,7 +121,7 @@
       #{viewCount,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.guli.edu.entity.EduCourse" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.guli.edu.entity.EduCourse" >
     insert into edu_course
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

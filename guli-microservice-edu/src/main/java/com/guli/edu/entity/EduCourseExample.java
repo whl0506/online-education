@@ -1,10 +1,13 @@
 package com.guli.edu.entity;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class EduCourseExample {
     protected String orderByClause;
 

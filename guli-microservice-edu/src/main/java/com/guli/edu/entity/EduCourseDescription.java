@@ -1,8 +1,11 @@
 package com.guli.edu.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 
-public class EduCourseDescription {
+@Data
+public class EduCourseDescription extends BaseProperties{
     private Long id;
 
     private Date gmtCreate;
