@@ -1,6 +1,5 @@
 package com.guli.oss.service;
 
-import com.guli.common.vo.R;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
@@ -10,5 +9,5 @@ public interface FileService {
      * @param file
      * @return
      */
-    String upload(MultipartFile file);
+    String upload(MultipartFile file,String host);
 }

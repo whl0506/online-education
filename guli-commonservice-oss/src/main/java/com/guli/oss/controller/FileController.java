@@ -20,9 +20,9 @@ public class FileController {
      * @param file
      */
     @PostMapping("upload")
-    public R upload(@RequestParam("file") MultipartFile file) {
+    public R upload(@RequestParam("file") MultipartFile file,@RequestParam("host") String host) {
 
-        String uploadUrl = fileService.upload(file);
+        String uploadUrl = fileService.upload(file,host);
         //返回r对象
         return R.ok().message("文件上传成功").data("url", uploadUrl);
 

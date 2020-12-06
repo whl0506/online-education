@@ -8,6 +8,7 @@ import com.guli.oss.service.FileService;
 import com.guli.oss.util.ConstantPropertiesUtil;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,13 +19,17 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
 
     @Override
-    public String upload(MultipartFile file) {
+    public String upload(MultipartFile file,String host) {
         //获取阿里云存储相关常量
         String endPoint = ConstantPropertiesUtil.END_POINT;
         String accessKeyId = ConstantPropertiesUtil.ACCESS_KEY_ID;
         String accessKeySecret = ConstantPropertiesUtil.ACCESS_KEY_SECRET;
         String bucketName = ConstantPropertiesUtil.BUCKET_NAME;
+        //增加课程封面文件夹名
         String fileHost = ConstantPropertiesUtil.FILE_HOST;
+        if (!StringUtils.isEmpty(host)) {
+            fileHost = host;
+        }
         // 上传后地址
         String uploadUrl = null;
         try {
