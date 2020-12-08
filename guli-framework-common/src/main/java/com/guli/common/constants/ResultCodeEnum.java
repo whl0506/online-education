@@ -13,7 +13,9 @@ public enum ResultCodeEnum {
 
     FILE_UPLOAD_ERROR(false, 21004, "文件上传错误"),
 
-    EXCEL_DATA_IMPORT_ERROR(false,21005,"EXCEL数据导入错误");
+    EXCEL_DATA_IMPORT_ERROR(false,21005,"EXCEL数据导入错误"),
+
+    NO_EXISTED_DATA(false,20002,"数据不存在") ;
 
     private Boolean success;
 

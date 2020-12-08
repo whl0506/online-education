@@ -1,5 +1,6 @@
 package com.guli.edu.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,15 +15,19 @@ public class CourseInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "课程ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     @ApiModelProperty(value = "课程讲师ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long teacherId;
 
     @ApiModelProperty(value = "课程专业父级ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long subjectParentId;
 
     @ApiModelProperty(value = "课程专业ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long subjectId;
 
     @ApiModelProperty(value = "课程标题")
