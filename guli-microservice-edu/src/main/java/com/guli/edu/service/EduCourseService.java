@@ -1,17 +1,19 @@
 package com.guli.edu.service;
 
-import com.guli.edu.dto.CourseInfoForm;
+import com.guli.edu.dto.CourseInfoDto;
 import com.guli.edu.query.CourseQuery;
 
 import java.util.Map;
 
 public interface EduCourseService {
 
-    String saveCourseInfo(CourseInfoForm courseInfoForm);
+    String saveCourseInfo(CourseInfoDto courseInfoDto);
 
-    CourseInfoForm getCourseInfoFormById(Long id);
+    CourseInfoDto getCourseInfoFormById(Long id);
 
-    void updateCourseInfoById(CourseInfoForm courseInfoForm);
+    void updateCourseInfoById(CourseInfoDto courseInfoDto);
 
     Map getPageList(int page, int limit, CourseQuery courseQuery);
+
+    boolean removeCourseById(Long id);
 }

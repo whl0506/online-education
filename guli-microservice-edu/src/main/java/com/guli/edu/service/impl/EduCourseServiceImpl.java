@@ -5,14 +5,16 @@ import com.github.pagehelper.PageHelper;
 import com.guli.common.constants.PriceConstants;
 import com.guli.common.constants.ResultCodeEnum;
 import com.guli.common.exception.GuliException;
-import com.guli.edu.dto.CourseInfoForm;
+import com.guli.edu.dto.CourseInfoDto;
 import com.guli.edu.entity.EduCourse;
 import com.guli.edu.entity.EduCourseDescription;
 import com.guli.edu.entity.EduCourseExample;
 import com.guli.edu.mapper.EduCourseDescriptionMapper;
 import com.guli.edu.mapper.EduCourseMapper;
 import com.guli.edu.query.CourseQuery;
+import com.guli.edu.service.EduChapterService;
 import com.guli.edu.service.EduCourseService;
+import com.guli.edu.service.EduVideoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,19 +37,25 @@ public class EduCourseServiceImpl implements EduCourseService {
     @Autowired
     private EduCourseDescriptionMapper courseDescriptionMapper;
 
+    @Autowired
+    private EduVideoService eduVideoService;
+
+    @Autowired
+    private EduChapterService eduChapterService;
+
     @Override
     @Transactional
-    public String saveCourseInfo(CourseInfoForm courseInfoForm) {
+    public String saveCourseInfo(CourseInfoDto courseInfoDto) {
         EduCourse eduCourse = new EduCourse();
         eduCourse.setStatus(EduCourse.COURSE_DRAFT);
-        BeanUtils.copyProperties(courseInfoForm,eduCourse);
+        BeanUtils.copyProperties(courseInfoDto,eduCourse);
         int result = eduCourseMapper.insert(eduCourse);
         if (result <= 0){
             throw new GuliException(ResultCodeEnum.UNKNOWN_REASON);
         }
         EduCourseDescription courseDescription = new EduCourseDescription();
         courseDescription.setId(eduCourse.getId());
-        courseDescription.setDescription(courseInfoForm.getDescription());
+        courseDescription.setDescription(courseInfoDto.getDescription());
         int flag = courseDescriptionMapper.insert(courseDescription);
         if (flag <=0 ){
             throw new GuliException(ResultCodeEnum.UNKNOWN_REASON);
@@ -56,28 +64,28 @@ public class EduCourseServiceImpl implements EduCourseService {
     }
 
     @Override
-    public CourseInfoForm getCourseInfoFormById(Long id) {
+    public CourseInfoDto getCourseInfoFormById(Long id) {
         EduCourse eduCourse = eduCourseMapper.selectByPrimaryKey(id);
         if (ObjectUtils.isEmpty(eduCourse)) {
             throw new GuliException(ResultCodeEnum.NO_EXISTED_DATA);
         }
-        CourseInfoForm courseInfoForm = new CourseInfoForm();
-        BeanUtils.copyProperties(eduCourse,courseInfoForm);
+        CourseInfoDto courseInfoDto = new CourseInfoDto();
+        BeanUtils.copyProperties(eduCourse, courseInfoDto);
         //设置显示精度：舍弃多余的位数
-        courseInfoForm.setPrice(courseInfoForm.getPrice()
+        courseInfoDto.setPrice(courseInfoDto.getPrice()
                 .setScale(PriceConstants.DISPLAY_SCALE, BigDecimal.ROUND_FLOOR));
         EduCourseDescription description = courseDescriptionMapper.selectByPrimaryKey(id);
-        courseInfoForm.setDescription(description.getDescription());
-        return courseInfoForm;
+        courseInfoDto.setDescription(description.getDescription());
+        return courseInfoDto;
     }
 
     @Transactional
     @Override
-    public void updateCourseInfoById(CourseInfoForm courseInfoForm) {
+    public void updateCourseInfoById(CourseInfoDto courseInfoDto) {
         //保存课程基本信息
         EduCourse course = new EduCourse();
         course.setStatus(EduCourse.COURSE_DRAFT);
-        BeanUtils.copyProperties(courseInfoForm, course);
+        BeanUtils.copyProperties(courseInfoDto, course);
         int result = eduCourseMapper.updateByPrimaryKeySelective(course);
         if(result <= 0){
             throw new GuliException(ResultCodeEnum.UNKNOWN_REASON);
@@ -85,7 +93,7 @@ public class EduCourseServiceImpl implements EduCourseService {
 
         //保存课程详情信息
         EduCourseDescription courseDescription = new EduCourseDescription();
-        courseDescription.setDescription(courseInfoForm.getDescription());
+        courseDescription.setDescription(courseInfoDto.getDescription());
         courseDescription.setId(course.getId());
         int flag = courseDescriptionMapper.updateByPrimaryKeySelective(courseDescription);
         if(flag <= 0){
@@ -130,5 +138,15 @@ public class EduCourseServiceImpl implements EduCourseService {
         resultMap.put("total",startPage.getTotal());
         resultMap.put("rows",eduCourses);
         return resultMap;
+    }
+
+    @Transactional
+    @Override
+    public boolean removeCourseById(Long courseId) {
+        // 如果用户确定删除，则首先删除video记录，然后删除chapter记录，最后删除Course记录
+        eduVideoService.deleteVideoByCourseId(courseId);
+        eduChapterService.removeByCourseId(courseId);
+        int result = eduCourseMapper.deleteByPrimaryKey(courseId);
+        return result > 0 ;
     }
 }

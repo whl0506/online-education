@@ -58,17 +58,17 @@ public class EduServiceConfig implements Interceptor {
         return invocation.proceed();
     }
 
-    private void setModifiedTime(Object object) {
-        if (object instanceof BaseProperties) {
-            BaseProperties baseProperties = (BaseProperties) object;
+    private void setModifiedTime(Object param) {
+        if (param instanceof BaseProperties) {
+            BaseProperties baseProperties = (BaseProperties) param;
             baseProperties.setGmtModified(new Date());
         }
 
     }
 
-    private void setTime(Object object) {
-        if (object instanceof BaseProperties) {
-            BaseProperties baseProperties = (BaseProperties) object;
+    private void setTime(Object param) {
+        if (param instanceof BaseProperties) {
+            BaseProperties baseProperties = (BaseProperties) param;
             if (ObjectUtils.isEmpty(baseProperties.getGmtCreate())) {
                 baseProperties.setGmtCreate(new Date());
             }

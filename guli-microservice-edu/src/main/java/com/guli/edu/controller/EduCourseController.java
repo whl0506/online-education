@@ -1,7 +1,7 @@
 package com.guli.edu.controller;
 
 import com.guli.common.vo.R;
-import com.guli.edu.dto.CourseInfoForm;
+import com.guli.edu.dto.CourseInfoDto;
 import com.guli.edu.query.CourseQuery;
 import com.guli.edu.service.EduCourseService;
 import io.swagger.annotations.Api;
@@ -36,8 +36,8 @@ public class EduCourseController {
 
     @ApiOperation(value = "保存课程信息")
     @PostMapping("/save-course-info")
-    public R saveCourseInfo(@RequestBody CourseInfoForm courseInfoForm) {
-        String courseId = eduCourseService.saveCourseInfo(courseInfoForm);
+    public R saveCourseInfo(@RequestBody CourseInfoDto courseInfoDto) {
+        String courseId = eduCourseService.saveCourseInfo(courseInfoDto);
         if(!StringUtils.isEmpty(courseId)) {
             return R.ok().data("courseId", courseId);
         }
@@ -50,19 +50,29 @@ public class EduCourseController {
             @ApiParam(name = "id", value = "课程ID", required = true)
             @PathVariable Long id){
 
-        CourseInfoForm courseInfoForm = eduCourseService.getCourseInfoFormById(id);
-        return R.ok().data("item", courseInfoForm);
+        CourseInfoDto courseInfoDto = eduCourseService.getCourseInfoFormById(id);
+        return R.ok().data("item", courseInfoDto);
     }
 
     @ApiOperation(value = "更新课程")
     @PutMapping("update-course-info/{id}")
     public R updateCourseInfoById(
-            @ApiParam(name = "CourseInfoForm", value = "课程基本信息", required = true)
-            @RequestBody CourseInfoForm courseInfoForm){
-
-        eduCourseService.updateCourseInfoById(courseInfoForm);
+            @ApiParam(name = "CourseInfoDto", value = "课程基本信息", required = true)
+            @RequestBody CourseInfoDto courseInfoDto){
+        eduCourseService.updateCourseInfoById(courseInfoDto);
         return R.ok();
     }
 
+    @ApiOperation(value = "根据ID删除课程")
+    @DeleteMapping("{id}")
+    public R removeById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable Long id){
+        boolean result = eduCourseService.removeCourseById(id);
+        if(result){
+            return R.ok();
+        }
+        return R.error().message("删除失败");
+    }
 
 }
