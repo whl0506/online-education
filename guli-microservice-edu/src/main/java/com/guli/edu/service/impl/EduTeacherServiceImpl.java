@@ -37,7 +37,7 @@ public class EduTeacherServiceImpl implements EduTeacherService {
             throw new GuliException(ResultCodeEnum.PARAM_ERROR);
         }
         Page<EduTeacher> startPage = PageHelper.startPage(Integer.valueOf(page), Integer.valueOf(limit));
-        List<EduTeacher> eduTeachers;
+        List<EduTeacher> eduTeachers = new ArrayList<>();
         if (ObjectUtils.isEmpty(teacherDto)) {
             eduTeachers = eduTeacherMapper.selectByExample(null);
         } else {

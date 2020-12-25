@@ -4,6 +4,7 @@ import com.guli.common.vo.R;
 import com.guli.edu.dto.CourseInfoDto;
 import com.guli.edu.query.CourseQuery;
 import com.guli.edu.service.EduCourseService;
+import com.guli.edu.vo.EduCoursePublishVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -49,7 +50,6 @@ public class EduCourseController {
     public R getById(
             @ApiParam(name = "id", value = "课程ID", required = true)
             @PathVariable Long id){
-
         CourseInfoDto courseInfoDto = eduCourseService.getCourseInfoFormById(id);
         return R.ok().data("item", courseInfoDto);
     }
@@ -75,4 +75,24 @@ public class EduCourseController {
         return R.error().message("删除失败");
     }
 
+    @ApiOperation(value = "根据课程id获取课程发布信息")
+    @GetMapping("course-publish-info/{id}")
+    public R getPublishInfoByCourseId(
+            @ApiParam(name = "id",value = "课程ID",required = true)
+            @PathVariable Long id){
+        EduCoursePublishVo publishVo = eduCourseService.getPublishInfoById(id);
+        return R.ok().data("item",publishVo);
+    }
+
+    @ApiOperation(value = "发布课程")
+    @PutMapping("publish-course/{id}")
+    public R publishCourse(
+            @ApiParam(name = "id",value = "课程ID",required = true)
+            @PathVariable Long id){
+        Boolean result = eduCourseService.publishCourse(id);
+        if (result) {
+            return R.ok();
+        }
+        return R.error().message("发布课程失败");
+    }
 }

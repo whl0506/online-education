@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -179,6 +180,15 @@ public class EduSubjectServiceImpl implements EduSubjectService {
             eduSubjectMapper.insert(eduSubject);
         }
         return msg;
+    }
+
+    @Override
+    public EduSubject getSubjectById(Long subjectId) {
+        EduSubject subject = eduSubjectMapper.selectByPrimaryKey(subjectId);
+        if (ObjectUtils.isEmpty(subject)) {
+            throw new GuliException(ResultCodeEnum.NO_EXISTED_DATA);
+        }
+        return subject;
     }
 
     private List<EduSubject> getSubjectsByParentId(Long parentId) {

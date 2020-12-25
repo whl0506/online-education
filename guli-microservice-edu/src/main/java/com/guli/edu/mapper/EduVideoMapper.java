@@ -2,12 +2,10 @@ package com.guli.edu.mapper;
 
 import com.guli.edu.entity.EduVideo;
 import com.guli.edu.entity.EduVideoExample;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
 public interface EduVideoMapper {
     int countByExample(EduVideoExample example);
 

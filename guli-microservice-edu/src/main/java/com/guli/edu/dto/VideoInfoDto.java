@@ -22,6 +22,9 @@ public class VideoInfoDto {
     @ApiModelProperty(value = "章节ID")
     private Long chapterId;
 
+    @ApiModelProperty(value = "云服务器上存储的视频文件名称")
+    private String videoOriginalName;
+
     @ApiModelProperty(value = "视频资源")
     private String videoSourceId;
 

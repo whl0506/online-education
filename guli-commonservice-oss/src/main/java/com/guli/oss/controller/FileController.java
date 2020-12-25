@@ -20,7 +20,7 @@ public class FileController {
      * @param file
      */
     @PostMapping("upload")
-    public R upload(@RequestParam("file") MultipartFile file,@RequestParam("host") String host) {
+    public R upload(@RequestParam("file") MultipartFile file,@RequestParam(value = "host",required = false) String host) {
 
         String uploadUrl = fileService.upload(file,host);
         //返回r对象

@@ -15,4 +15,6 @@ public interface EduSubjectService {
     Boolean removeSubjectById(Long id);
 
     String saveSubject(EduSubject eduSubject);
+
+    EduSubject getSubjectById(Long subjectId);
 }

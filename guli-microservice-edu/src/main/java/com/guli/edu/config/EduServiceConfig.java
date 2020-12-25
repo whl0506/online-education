@@ -2,7 +2,6 @@ package com.guli.edu.config;
 
 import com.guli.edu.entity.BaseProperties;
 import com.guli.edu.entity.EduTeacher;
-import com.guli.edu.entity.EduTeacherExample;
 import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;

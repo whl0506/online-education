@@ -20,4 +20,6 @@ public interface EduVideoService {
 
     boolean removeVideoById(Long id);
 
+    boolean removeByCourseId(Long courseId);
+
 }

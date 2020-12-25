@@ -9,6 +9,7 @@
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="play_count" property="playCount" jdbcType="BIGINT" />
     <result column="is_free" property="isFree" jdbcType="BIT" />
+    <result column="video_original_name" property="videoOriginalName" jdbcType="VARCHAR" />
     <result column="video_source_id" property="videoSourceId" jdbcType="VARCHAR" />
     <result column="duration" property="duration" jdbcType="REAL" />
     <result column="status" property="status" jdbcType="VARCHAR" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, course_id, chapter_id, title, sort, play_count, is_free, video_source_id, duration, 
-    status, size, version, gmt_create, gmt_modified
+    id, course_id, chapter_id, title, sort, play_count, is_free, video_original_name, 
+    video_source_id, duration, status, size, version, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.guli.edu.entity.EduVideoExample" >
     select
@@ -109,19 +110,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.guli.edu.entity.EduVideo" >
+  <insert id="insert" parameterType="com.guli.edu.entity.EduVideo" >
     insert into edu_video (id, course_id, chapter_id, 
       title, sort, play_count, 
-      is_free, video_source_id, duration, 
-      status, size, version, 
-      gmt_create, gmt_modified)
+      is_free, video_original_name, video_source_id, 
+      duration, status, size, 
+      version, gmt_create, gmt_modified
+      )
     values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{chapterId,jdbcType=BIGINT}, 
       #{title,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{playCount,jdbcType=BIGINT}, 
-      #{isFree,jdbcType=BIT}, #{videoSourceId,jdbcType=VARCHAR}, #{duration,jdbcType=REAL}, 
-      #{status,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+      #{isFree,jdbcType=BIT}, #{videoOriginalName,jdbcType=VARCHAR}, #{videoSourceId,jdbcType=VARCHAR}, 
+      #{duration,jdbcType=REAL}, #{status,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
+      #{version,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.guli.edu.entity.EduVideo" >
+  <insert id="insertSelective" parameterType="com.guli.edu.entity.EduVideo" >
     insert into edu_video
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -144,6 +147,9 @@
       </if>
       <if test="isFree != null" >
         is_free,
+      </if>
+      <if test="videoOriginalName != null" >
+        video_original_name,
       </if>
       <if test="videoSourceId != null" >
         video_source_id,
@@ -188,6 +194,9 @@
       </if>
       <if test="isFree != null" >
         #{isFree,jdbcType=BIT},
+      </if>
+      <if test="videoOriginalName != null" >
+        #{videoOriginalName,jdbcType=VARCHAR},
       </if>
       <if test="videoSourceId != null" >
         #{videoSourceId,jdbcType=VARCHAR},
@@ -242,6 +251,9 @@
       <if test="record.isFree != null" >
         is_free = #{record.isFree,jdbcType=BIT},
       </if>
+      <if test="record.videoOriginalName != null" >
+        video_original_name = #{record.videoOriginalName,jdbcType=VARCHAR},
+      </if>
       <if test="record.videoSourceId != null" >
         video_source_id = #{record.videoSourceId,jdbcType=VARCHAR},
       </if>
@@ -277,6 +289,7 @@
       sort = #{record.sort,jdbcType=INTEGER},
       play_count = #{record.playCount,jdbcType=BIGINT},
       is_free = #{record.isFree,jdbcType=BIT},
+      video_original_name = #{record.videoOriginalName,jdbcType=VARCHAR},
       video_source_id = #{record.videoSourceId,jdbcType=VARCHAR},
       duration = #{record.duration,jdbcType=REAL},
       status = #{record.status,jdbcType=VARCHAR},
@@ -308,6 +321,9 @@
       </if>
       <if test="isFree != null" >
         is_free = #{isFree,jdbcType=BIT},
+      </if>
+      <if test="videoOriginalName != null" >
+        video_original_name = #{videoOriginalName,jdbcType=VARCHAR},
       </if>
       <if test="videoSourceId != null" >
         video_source_id = #{videoSourceId,jdbcType=VARCHAR},
@@ -341,6 +357,7 @@
       sort = #{sort,jdbcType=INTEGER},
       play_count = #{playCount,jdbcType=BIGINT},
       is_free = #{isFree,jdbcType=BIT},
+      video_original_name = #{videoOriginalName,jdbcType=VARCHAR},
       video_source_id = #{videoSourceId,jdbcType=VARCHAR},
       duration = #{duration,jdbcType=REAL},
       status = #{status,jdbcType=VARCHAR},

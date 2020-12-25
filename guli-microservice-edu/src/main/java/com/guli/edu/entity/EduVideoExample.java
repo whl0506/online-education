@@ -535,6 +535,76 @@ public class EduVideoExample {
             return (Criteria) this;
         }
 
+        public Criteria andVideoOriginalNameIsNull() {
+            addCriterion("video_original_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameIsNotNull() {
+            addCriterion("video_original_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameEqualTo(String value) {
+            addCriterion("video_original_name =", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameNotEqualTo(String value) {
+            addCriterion("video_original_name <>", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameGreaterThan(String value) {
+            addCriterion("video_original_name >", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameGreaterThanOrEqualTo(String value) {
+            addCriterion("video_original_name >=", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameLessThan(String value) {
+            addCriterion("video_original_name <", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameLessThanOrEqualTo(String value) {
+            addCriterion("video_original_name <=", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameLike(String value) {
+            addCriterion("video_original_name like", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameNotLike(String value) {
+            addCriterion("video_original_name not like", value, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameIn(List<String> values) {
+            addCriterion("video_original_name in", values, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameNotIn(List<String> values) {
+            addCriterion("video_original_name not in", values, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameBetween(String value1, String value2) {
+            addCriterion("video_original_name between", value1, value2, "videoOriginalName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoOriginalNameNotBetween(String value1, String value2) {
+            addCriterion("video_original_name not between", value1, value2, "videoOriginalName");
+            return (Criteria) this;
+        }
+
         public Criteria andVideoSourceIdIsNull() {
             addCriterion("video_source_id is null");
             return (Criteria) this;

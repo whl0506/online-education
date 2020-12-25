@@ -5,7 +5,7 @@ import lombok.Data;
 
 @ApiModel(value = "课程发布信息")
 @Data
-public class CoursePublishVo {
+public class EduCoursePublishVo {
 
     private static final long serialVersionUID = 1L;
 
