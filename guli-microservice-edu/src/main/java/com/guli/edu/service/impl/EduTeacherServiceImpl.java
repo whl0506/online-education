@@ -27,7 +27,7 @@ public class EduTeacherServiceImpl implements EduTeacherService {
 
     @Override
     public List<EduTeacher> getTeacherList() {
-        List<EduTeacher> eduTeacherList = eduTeacherMapper.selectByExample(null);
+        List<EduTeacher> eduTeacherList = eduTeacherMapper.selectByExample(new EduTeacherExample());
         return eduTeacherList;
     }
 
@@ -37,34 +37,35 @@ public class EduTeacherServiceImpl implements EduTeacherService {
             throw new GuliException(ResultCodeEnum.PARAM_ERROR);
         }
         Page<EduTeacher> startPage = PageHelper.startPage(Integer.valueOf(page), Integer.valueOf(limit));
-        List<EduTeacher> eduTeachers = new ArrayList<>();
-        if (ObjectUtils.isEmpty(teacherDto)) {
-            eduTeachers = eduTeacherMapper.selectByExample(null);
-        } else {
-            EduTeacherExample eduTeacherExample = new EduTeacherExample();
-            EduTeacherExample.Criteria criteria = eduTeacherExample.createCriteria();
-            String teacherDtoName = teacherDto.getName();
-            Integer teacherDtoLevel = teacherDto.getLevel();
-            String teacherDtoBegin = teacherDto.getBegin();
-            String teacherDtoEnd = teacherDto.getEnd();
-            if (!StringUtils.isEmpty(teacherDtoName)) {
-                criteria.andNameLike(teacherDtoName+"%");
-            }
-            if (!StringUtils.isEmpty(teacherDtoLevel)) {
-                criteria.andLevelEqualTo(teacherDtoLevel);
-            }
-            Date teacherBegin = parseToDate(teacherDtoBegin);
-            if (!ObjectUtils.isEmpty(teacherBegin)) {
-                criteria.andGmtCreateGreaterThanOrEqualTo(teacherBegin);
-            }
-            Date teacherEnd = parseToDate(teacherDtoEnd);
-            if (!ObjectUtils.isEmpty(teacherEnd)) {
-                criteria.andGmtModifiedLessThanOrEqualTo(teacherEnd);
-            }
-//          mybatis默认降序
-            eduTeacherExample.setOrderByClause("id desc");
-            eduTeachers = eduTeacherMapper.selectByExample(eduTeacherExample);
+        EduTeacherExample eduTeacherExample = new EduTeacherExample();
+        EduTeacherExample.Criteria criteria = eduTeacherExample.createCriteria();
+        String teacherDtoName = "";
+        Integer teacherDtoLevel = null;
+        String teacherDtoBegin = "";
+        String teacherDtoEnd = "";
+        if (!ObjectUtils.isEmpty(teacherDto)) {
+            teacherDtoName = teacherDto.getName();
+            teacherDtoLevel = teacherDto.getLevel();
+            teacherDtoBegin = teacherDto.getBegin();
+            teacherDtoEnd = teacherDto.getEnd();
         }
+        if (!StringUtils.isEmpty(teacherDtoName)) {
+            criteria.andNameLike(teacherDtoName+"%");
+        }
+        if (!ObjectUtils.isEmpty(teacherDtoLevel)) {
+            criteria.andLevelEqualTo(teacherDtoLevel);
+        }
+        Date teacherBegin = this.parseToDate(teacherDtoBegin);
+        if (!ObjectUtils.isEmpty(teacherBegin)) {
+            criteria.andGmtCreateGreaterThanOrEqualTo(teacherBegin);
+        }
+        Date teacherEnd = this.parseToDate(teacherDtoEnd);
+        if (!ObjectUtils.isEmpty(teacherEnd)) {
+            criteria.andGmtModifiedLessThanOrEqualTo(teacherEnd);
+        }
+//      mybatis默认降序
+        eduTeacherExample.setOrderByClause("id desc");
+        List<EduTeacher> eduTeachers = eduTeacherMapper.selectByExample(eduTeacherExample);
         HashMap pageResult = new HashMap();
         pageResult.put("total",startPage.getTotal());
         pageResult.put("items",eduTeachers);

@@ -5,10 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -61,10 +58,14 @@ public class CmsServiceConfig implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        return null;
+        // 这里就直接用MyBatis为我们提供的Plugin.wrap返回代理类
+        return Plugin.wrap(target, this);
     }
 
+    /**
+     * 这个方法用于在Mybatis配置文件中指定一些属性的。
+     * 具体也不是太懂，这里就算了不深究了
+     */
     @Override
-    public void setProperties(Properties properties) {
-    }
+    public void setProperties(Properties properties) {}
 }

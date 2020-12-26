@@ -1,9 +1,9 @@
 package com.atguigu.cmsservice.service.impl;
 
 import com.atguigu.cmsservice.entity.CrmBanner;
+import com.atguigu.cmsservice.entity.CrmBannerExample;
 import com.atguigu.cmsservice.mapper.CrmBannerMapper;
 import com.atguigu.cmsservice.service.CrmBannerService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +51,7 @@ public class CrmBannerServiceImpl implements CrmBannerService {
 
     @Override
     public List<CrmBanner> selectIndexList() {
-        return crmBannerMapper.selectByExample(null);
+        List<CrmBanner> crmBanners = crmBannerMapper.selectByExample(new CrmBannerExample());
+        return crmBanners;
     }
 }
